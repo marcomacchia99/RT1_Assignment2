@@ -1,32 +1,29 @@
 #include "ros/ros.h"
 #include "sensor_msgs/LaserScan.h"
 #include "geometry_msgs/Twist.h"
+#include "RT1_Assignment2/Speed_service.h"
 
 #define LENGTH 80
 
-ros::Publisher pub;
+ros::Publisher publisher;
 
 double f_th = 2;
 float lin_vel = 5;
 
-double min_val(double a[])
+double min(double a[])
 {
-	double dist = 30;
-	for(int i=0; i < LENGTH; i++)
-	{
-		if(a[i] < dist)
-		{
-			dist = a[i];
-		}
-	}
-	return dist;
+    double min = 30;
+    for (int i = 0; i < LENGTH; i++)
+    {
+        if (a[i] < min)
+            min = a[i];
+    }
+    return min;
 }
 
-void callbackFnc(const sensor_msgs::LaserScan::ConstPtr &msg)
+void checkTrackLimits(const sensor_msgs::LaserScan::ConstPtr &msg)
 {
     geometry_msgs::Twist vel;
-
-    // keep arra
 
     float r[msg->ranges.size()];
     for (int i = 0; i < msg->ranges.size(); i++)
@@ -38,14 +35,14 @@ void callbackFnc(const sensor_msgs::LaserScan::ConstPtr &msg)
     double front[LENGTH];
     double right[LENGTH];
 
-    for (int i = 719-LENGTH; i <= 719; i++)
+    for (int i = 719 - LENGTH; i <= 719; i++)
     {
-        left[i - (719-LENGTH)] = r[i];
+        left[i - (719 - LENGTH)] = r[i];
     }
 
-    for (int i = 360-((LENGTH/2)+LENGTH%2); i < 360+((LENGTH/2)+LENGTH%2); i++)
+    for (int i = 360 - ((LENGTH / 2) + LENGTH % 2); i < 360 + ((LENGTH / 2) + LENGTH % 2); i++)
     {
-        front[i - (360-((LENGTH/2)+LENGTH%2))] = r[i];
+        front[i - (360 - ((LENGTH / 2) + LENGTH % 2))] = r[i];
     }
 
     for (int i = 0; i < LENGTH; i++)
@@ -53,26 +50,25 @@ void callbackFnc(const sensor_msgs::LaserScan::ConstPtr &msg)
         right[i] = r[i];
     }
 
-    // check the distance
-    if (min_val(front) < f_th)
+    if (min(front) < f_th)
     {
-        if (min_val(right) < min_val(left))
+        if (min(right) < min(left))
         {
             vel.angular.z = 2;
             vel.linear.x = 1;
         }
-        else if (min_val(right) > min_val(left))
+        else if (min(right) > min(left))
         {
             vel.angular.z = -2;
             vel.linear.x = 1;
         }
     }
-    else if (min_val(front) > f_th)
+    else if (min(front) > f_th)
     {
         vel.linear.x = lin_vel;
     }
 
-    pub.publish(vel);
+    publisher.publish(vel);
 }
 
 int main(int argc, char **argv)
@@ -80,9 +76,9 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "controller");
     ros::NodeHandle node_handle;
 
-    ros::Subscriber sub = node_handle.subscribe("/base_scan", 500, callbackFnc);
+    ros::Subscriber subscriber = node_handle.subscribe("/base_scan", 500, checkTrackLimits);
 
-    pub = node_handle.advertise<geometry_msgs::Twist>("/cmd_vel", 1);
+    publisher = node_handle.advertise<geometry_msgs::Twist>("/cmd_vel", 1);
 
     ros::spin();
     return 0;
