@@ -2,17 +2,16 @@
 #include "sensor_msgs/LaserScan.h"
 #include "geometry_msgs/Twist.h"
 
+#define LENGTH 80
+
 ros::Publisher pub;
 
-void callbackFnc(const sensor_msgs::LaserScan::ConstPtr &msg)
-{
-    geometry_msgs::Twist vel;
+double f_th = 2;
 
-    // keep array
-    double min_val(double a[])
+double min_val(double a[])
 {
 	double dist = 30;
-	for(int i=0; i < a.size(); i++)
+	for(int i=0; i < LENGTH; i++)
 	{
 		if(a[i] < dist)
 		{
@@ -22,27 +21,33 @@ void callbackFnc(const sensor_msgs::LaserScan::ConstPtr &msg)
 	return dist;
 }
 
+void callbackFnc(const sensor_msgs::LaserScan::ConstPtr &msg)
+{
+    geometry_msgs::Twist vel;
+
+    // keep arra
+
     float r[msg->ranges.size()];
     for (int i = 0; i < msg->ranges.size(); i++)
     {
         r[i] = msg->ranges[i];
     }
 
-    double left[120];
-    double front[120];
-    double right[120];
+    double left[LENGTH];
+    double front[LENGTH];
+    double right[LENGTH];
 
-    for (int i = 599; i <= 719; i++)
+    for (int i = 659-((LENGTH/2)+LENGTH%2); i <= 659+((LENGTH/2)+LENGTH%2); i++)
     {
-        left[i - 599] = r[i];
+        left[i - 659-((LENGTH/2)+LENGTH%2)] = r[i];
     }
 
-    for (int i = 300; i < 420; i++)
+    for (int i = 360-((LENGTH/2)+LENGTH%2); i < 360+((LENGTH/2)+LENGTH%2); i++)
     {
-        front[i - 300] = r[i];
+        front[i - 360-((LENGTH/2)+LENGTH%2)] = r[i];
     }
 
-    for (int i = 0; i < 120; i++)
+    for (int i = 0; i < LENGTH; i++)
     {
         right[i] = r[i];
     }
@@ -63,7 +68,7 @@ void callbackFnc(const sensor_msgs::LaserScan::ConstPtr &msg)
     }
     else if (min_val(front) > f_th)
     {
-        vel.linear.x = 1.0;
+        vel.linear.x = 5.0;
     }
 
     pub.publish(vel);
@@ -71,7 +76,7 @@ void callbackFnc(const sensor_msgs::LaserScan::ConstPtr &msg)
 
 int main(int argc, char **argv)
 {
-    ros::init(argc, argv, "Autodromo Nazionale di Monza - controller");
+    ros::init(argc, argv, "controller");
     ros::NodeHandle node_handle;
 
     ros::Subscriber sub = node_handle.subscribe("/base_scan", 500, callbackFnc);
