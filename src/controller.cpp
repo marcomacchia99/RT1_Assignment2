@@ -7,6 +7,7 @@
 ros::Publisher pub;
 
 double f_th = 2;
+float lin_vel = 5;
 
 double min_val(double a[])
 {
@@ -37,14 +38,14 @@ void callbackFnc(const sensor_msgs::LaserScan::ConstPtr &msg)
     double front[LENGTH];
     double right[LENGTH];
 
-    for (int i = 659-((LENGTH/2)+LENGTH%2); i <= 659+((LENGTH/2)+LENGTH%2); i++)
+    for (int i = 719-LENGTH; i <= 719; i++)
     {
-        left[i - 659-((LENGTH/2)+LENGTH%2)] = r[i];
+        left[i - (719-LENGTH)] = r[i];
     }
 
     for (int i = 360-((LENGTH/2)+LENGTH%2); i < 360+((LENGTH/2)+LENGTH%2); i++)
     {
-        front[i - 360-((LENGTH/2)+LENGTH%2)] = r[i];
+        front[i - (360-((LENGTH/2)+LENGTH%2))] = r[i];
     }
 
     for (int i = 0; i < LENGTH; i++)
@@ -57,18 +58,18 @@ void callbackFnc(const sensor_msgs::LaserScan::ConstPtr &msg)
     {
         if (min_val(right) < min_val(left))
         {
-            vel.angular.z = 1;
-            vel.linear.x = 0.5;
+            vel.angular.z = 2;
+            vel.linear.x = 1;
         }
         else if (min_val(right) > min_val(left))
         {
-            vel.angular.z = -1;
-            vel.linear.x = 0.5;
+            vel.angular.z = -2;
+            vel.linear.x = 1;
         }
     }
     else if (min_val(front) > f_th)
     {
-        vel.linear.x = 5.0;
+        vel.linear.x = lin_vel;
     }
 
     pub.publish(vel);
