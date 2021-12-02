@@ -2,13 +2,14 @@
 #include "sensor_msgs/LaserScan.h"
 #include "geometry_msgs/Twist.h"
 #include "RT1_Assignment2/Speed_service.h"
+#include "RT1_Assignment2/Speed_val.h"
 
 #define LENGTH 80
 
 ros::Publisher publisher;
 
 double f_th = 2;
-float lin_vel = 5;
+float speed = 1;
 
 double min(double a[])
 {
@@ -65,10 +66,15 @@ void checkTrackLimits(const sensor_msgs::LaserScan::ConstPtr &msg)
     }
     else if (min(front) > f_th)
     {
-        vel.linear.x = lin_vel;
+        vel.linear.x = speed;
     }
 
     publisher.publish(vel);
+}
+
+void speedHandler(const RT1_Assignment2::Speed_val::ConstPtr& sp){
+    printf("%f\n",sp->variation);
+    speed += sp->variation;
 }
 
 int main(int argc, char **argv)
@@ -76,7 +82,8 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "controller");
     ros::NodeHandle node_handle;
 
-    ros::Subscriber subscriber = node_handle.subscribe("/base_scan", 500, checkTrackLimits);
+    ros::Subscriber subScan = node_handle.subscribe("/base_scan", 500, checkTrackLimits);
+    ros::Subscriber subSpeed = node_handle.subscribe("/Speed_val", 1, speedHandler);
 
     publisher = node_handle.advertise<geometry_msgs::Twist>("/cmd_vel", 1);
 

@@ -5,7 +5,7 @@
 
 std_srvs::Empty reset;
 
-float current_speed = 0;
+float variation = 0;
 
 bool setSpeed(RT1_Assignment2::Speed_service::Request &req, RT1_Assignment2::Speed_service::Response &res)
 {
@@ -13,11 +13,11 @@ bool setSpeed(RT1_Assignment2::Speed_service::Request &req, RT1_Assignment2::Spe
     {
     case 'a':
     case 'A':
-        current_speed+=0.5;
+        variation+=0.5;
         break;
     case 'd':
     case 'D':
-        current_speed-=0.5;
+        variation-=0.5;
         break;
     case 'r':
     case 'R':
@@ -26,7 +26,7 @@ bool setSpeed(RT1_Assignment2::Speed_service::Request &req, RT1_Assignment2::Spe
     default:
         break;
     }
-    res.value = current_speed;
+    res.value = variation;
     return true;
 
 }

@@ -6,7 +6,7 @@
 
 ros::Publisher pub;
 
-void getCommand()
+void getCommand(const sensor_msgs::LaserScan::ConstPtr &msg)
 {
     RT1_Assignment2::Speed_service service;
     ros::ServiceClient client;
@@ -25,6 +25,8 @@ void getCommand()
     client.call(service);
 
     RT1_Assignment2::Speed_val speed;
+    speed.variation=service.response.value;
+    pub.publish(speed);
 }
 
 int main(int argc, char **argv)
@@ -33,7 +35,7 @@ int main(int argc, char **argv)
     ros::NodeHandle node_handle;
 
     ros::ServiceClient service_client = node_handle.serviceClient<RT1_Assignment2::Speed_service>("/service");
-    ros::Subscriber subscriber = node_handle.subscribe("/base_scan", 1, getCommand);
+    ros::Subscriber subscriber = node_handle.subscribe("/base_scan", 500, getCommand);
 
     ros::spin();
     return 0;
