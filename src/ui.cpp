@@ -28,7 +28,7 @@ void getCommand(const sensor_msgs::LaserScan::ConstPtr &msg)
         speed.speed = service.response.value;
         pub.publish(speed);
         system("clear");
-        std::cout << "New speed: "<< service.response.value<<"\n";
+        std::cout << "New speed: "<< service.response.value<<"\n\n";
     }
     else
     {
@@ -39,6 +39,7 @@ void getCommand(const sensor_msgs::LaserScan::ConstPtr &msg)
 
 int main(int argc, char **argv)
 {
+    system("clear");
     ros::init(argc, argv, "ui");
     ros::NodeHandle node_handle;
 

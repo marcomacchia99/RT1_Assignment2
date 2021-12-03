@@ -46,7 +46,6 @@ bool setSpeed(RT1_Assignment2::Speed_service::Request &req, RT1_Assignment2::Spe
 int main(int argc, char **argv)
 
 {
-    speed=0;
     ros::init(argc, argv, "server");
     ros::NodeHandle node_handle;
 
