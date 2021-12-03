@@ -1,1 +1,1 @@
-float32 variation
+float32 speed

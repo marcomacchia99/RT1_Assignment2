@@ -73,8 +73,8 @@ void checkTrackLimits(const sensor_msgs::LaserScan::ConstPtr &msg)
 }
 
 void speedHandler(const RT1_Assignment2::Speed_val::ConstPtr& sp){
-    printf("%f\n",sp->variation);
-    speed += sp->variation;
+    std::cout << "New speed: "<< sp->speed<<"\n";
+    speed = sp->speed;
 }
 
 int main(int argc, char **argv)
@@ -83,7 +83,7 @@ int main(int argc, char **argv)
     ros::NodeHandle node_handle;
 
     ros::Subscriber subScan = node_handle.subscribe("/base_scan", 500, checkTrackLimits);
-    ros::Subscriber subSpeed = node_handle.subscribe("/Speed_val", 1, speedHandler);
+    ros::Subscriber subSpeed = node_handle.subscribe("/Speed_val", 500, speedHandler);
 
     publisher = node_handle.advertise<geometry_msgs::Twist>("/cmd_vel", 1);
 

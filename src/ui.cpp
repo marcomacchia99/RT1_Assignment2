@@ -5,28 +5,36 @@
 #include "RT1_Assignment2/Speed_val.h"
 
 ros::Publisher pub;
+ros::ServiceClient service_client;
 
 void getCommand(const sensor_msgs::LaserScan::ConstPtr &msg)
 {
     RT1_Assignment2::Speed_service service;
-    ros::ServiceClient client;
     char inputChar;
 
-    do
+    std::cout << "PRESS:\n- A to accelerate\n- D to decelerate\n- R to reset position\n\n";
+    std::cin >> inputChar;
+
+    if (inputChar == 'a' || inputChar == 'd' || inputChar == 'r' || inputChar == 'A' || inputChar == 'D' || inputChar == 'R')
+
     {
-        std::cout << "PRESS:\n- A to accelerate\n- D to decelerate\n -R to reset position\n\n";
-        std::cin >> inputChar;
-    } while (inputChar != 'a' || inputChar != 'd' || inputChar != 'r' || inputChar != 'A' || inputChar != 'D' || inputChar != 'R');
-    
-    service.request.input_char = inputChar;
+        service.request.input_char=inputChar;
+        
 
+        service_client.waitForExistence();
+        service_client.call(service);
 
-    client.waitForExistence();
-    client.call(service);
-
-    RT1_Assignment2::Speed_val speed;
-    speed.variation=service.response.value;
-    pub.publish(speed);
+        RT1_Assignment2::Speed_val speed;
+        speed.speed = service.response.value;
+        pub.publish(speed);
+        system("clear");
+        std::cout << "New speed: "<< service.response.value<<"\n";
+    }
+    else
+    {
+        system("clear");
+        std::cout <<"Wrong input. Please try again.\n\n";
+    }
 }
 
 int main(int argc, char **argv)
@@ -34,8 +42,9 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "ui");
     ros::NodeHandle node_handle;
 
-    ros::ServiceClient service_client = node_handle.serviceClient<RT1_Assignment2::Speed_service>("/service");
+    service_client = node_handle.serviceClient<RT1_Assignment2::Speed_service>("/accelerator");
     ros::Subscriber subscriber = node_handle.subscribe("/base_scan", 500, getCommand);
+    pub = node_handle.advertise<RT1_Assignment2::Speed_val>("/Speed_val", 500);   
 
     ros::spin();
     return 0;
