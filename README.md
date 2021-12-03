@@ -58,7 +58,11 @@ After a message from `/base_scan` is recieved, the controller node enters inside
 * if the front wall is nearer then `f_th = 2`meters, he checks the lateral distances:
   * if the left distance is more then the right distance he slightly turns to the right
   * otherwise he slightly turns to the left
-* if the front wall is furthest then the treshold, then the robot goes straight using the speed received by the `/accelerator` service (described below)  
+* if the front wall is furthest then the treshold, then the robot goes straight.
+
+
+When the robot goes straight, he uses the `/Speed_val` value as speed value. `/Speed_val` is managed by the UI node, according to what he receives from the `/accelerator` node. 
+
 
 ### Motors ###
 
