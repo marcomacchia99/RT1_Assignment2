@@ -1,43 +1,41 @@
-Assignment 2 - Research Track 1
+Assignment 2 - Research Track 1 
 ================================
+
+-----------------------
 
 Introduction
 ------------
 
-In this assignment we have to develop a robot that should `drive autonomously` inside the [Autodromo Nazionale di Monza](https://www.monzanet.it/) , `paying attention to the track limits`.
+In this assignment we have to develop a robot that should `drive autonomously` inside the [Autodromo Nazionale di Monza](https://www.monzanet.it/) , `paying attention to not collide with the track limits`.
 
 Installing and running
 ----------------------
 
-The simulator requires a Python 2.7 installation, the [pygame](http://pygame.org/) library, [PyPyBox2D](https://pypi.python.org/pypi/pypybox2d/2.1-r331), and [PyYAML](https://pypi.python.org/pypi/PyYAML/).
+The simulator requires [__ROS__](http://wiki.ros.org) (__Robot-Operating-Systems__) to be installed on the machine. In particular, the [Noetic Release of ROS](http://wiki.ros.org/noetic/Installation) was used.
 
-Pygame, unfortunately, can be tricky (though [not impossible](http://askubuntu.com/q/312767)) to install in virtual environments. If you are using `pip`, you might try `pip install hg+https://bitbucket.org/pygame/pygame`, or you could use your operating system's package manager. Windows users could use [Portable Python](http://portablepython.com/). PyPyBox2D and PyYAML are more forgiving, and should install just fine using `pip` or `easy_install`.
+In order to run the simulation, first you have to run ROS (using ```$ roscore &``` and ```$ catkin_make``` ), then you should run this commands, one per console page:
 
-Key elements
-------------
-* `The holonomic Robot`
-
-  ![alt text](https://github.com/marcomacchia99/ResearchTrack1/blob/main/sr/robot.png)
-  
-  The robot has distances sensor pointing in all direction, in such a way that he can see from -180 to 180 degrees.
- 
-* `Silver box`
-
-  ![alt text](https://github.com/marcomacchia99/ResearchTrack1/blob/main/sr/token_silver.png)
-
-* `Gold box`
-
-  ![alt text](https://github.com/marcomacchia99/ResearchTrack1/blob/main/sr/token.png)
-
-
-Run
------------------------------
-
-To run the assignment in the simulator, use `run.py`, passing it the file name `assignment1.py`, as the following:
-
-```bash
-$ python run.py assignment1.py
+```console
+$ rosrun stage_ros stageros $(rospack find RT1_Assignment2)/world/my_world.world
 ```
+
+(This particular command will open the game circuit)
+
+
+```console
+$ rosrun RT1_Assignment2 controller
+```
+(This particular command will run the controller node used to drive autonomously)
+
+```console
+$ rosrun RT1_Assignment2 server
+```
+(This particular command will run the service used to increase or decrease speed)
+
+```console
+$ rosrun RT1_Assignment2 UI
+```
+(This particular command will run the UI that can control the velocity)
 
 Robot API
 ---------
