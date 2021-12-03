@@ -64,7 +64,7 @@ void checkTrackLimits(const sensor_msgs::LaserScan::ConstPtr &msg)
             vel.linear.x = 1;
         }
     }
-    else if (min(front) > f_th)
+    else if (min(front) >= f_th)
     {
         vel.linear.x = speed;
     }

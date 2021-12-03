@@ -9,16 +9,6 @@ float speed = 1;
 
 bool setSpeed(RT1_Assignment2::Speed_service::Request &req, RT1_Assignment2::Speed_service::Response &res)
 {
-
-
-    // char buffer[80];
-    // strcpy(buffer, req.input_char.c_str());
-    // // int input = atoi(req.input_char.c_str());
-    // // int input = (int)req.input_char;
-
-    // printf("string: >%s<\n",req.input_char.c_str());
-    // printf("input: %d\n", (int)(buffer[0]));
-    // char input = buffer[0];
     switch (req.input_char)
     {
     case 'a':
