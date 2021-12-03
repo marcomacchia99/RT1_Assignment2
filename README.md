@@ -63,6 +63,18 @@ After a message from `/base_scan` is recieved, the controller node enters inside
 
 When the robot goes straight, he uses the `/Speed_val` value as speed value. `/Speed_val` is managed by the UI node, according to what he receives from the `/accelerator` node. 
 
+After doing that, the controller node publish the data to the `/cmd_vel` topic, used to control the robot movement.
+
+
+Service node
+--------------
+
+The service node manages the robot's speed, and he works in close contact with the UI node, used to interact with the final user. It simply checks the character received by the UI node and increments or decrements the speed. Also, if the button R is pressed, the service automatically resets the robot position to its initial position and velocity, using the `/reset_positions` service.
+
+UI node
+------
+
+
 
 ### Motors ###
 
