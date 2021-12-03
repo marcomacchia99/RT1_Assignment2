@@ -53,7 +53,12 @@ The controller node is capable of driving potentially indefinitely all around th
 
 The controller uses all the sensors data received by the `/base_scan` publisher after he subscribes to it. this topic is composed by 720 _ranges_, in which there are all the detected distances. the sensor can see from -90 to 90 degrees, so each sensor has 1/4 of degree of view.
 
-After a message from `/base_scan` is recieved, the controller node enters inside the `checkTrackLimits` function, that filters all the ranges taking only the one from -90° to -70°, -10° to 10° and 70° to 90°. After that the function checks for the minimum value inside each of the three sets, and choose what action has to be done:
+After a message from `/base_scan` is recieved, the controller node enters inside the `checkTrackLimits` function, that filters all the ranges taking only the one from:
+* -90° to -70°, 
+* -10° to 10°,
+* 70° to 90°. 
+
+After that the function checks for the minimum value inside each of the three sets, and choose what action has to be done:
 
 * if the front wall is nearer then `f_th = 2`meters, he checks the lateral distances:
   * if the left distance is more then the right distance he slightly turns to the right
