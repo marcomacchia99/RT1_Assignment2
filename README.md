@@ -37,10 +37,28 @@ $ rosrun RT1_Assignment2 UI
 ```
 (This particular command will run the UI that can control the velocity)
 
-Robot API
+Game environment
 ---------
 
-The API for controlling a simulated robot is designed to be as similar as possible to the [SR API][sr-api].
+Here's the Monza track used in this game:
+
+![alt text](https://github.com/marcomacchia99/RT1_Assignment2/blob/main/world/tracciato.png)
+
+ROS generate the track arena based on this image, using the file `.world` contined inside the `world` folder. 
+
+Controller node
+--------------
+
+The controller node is capable of driving potentially indefinitely all around the track, automatically detecting straights and turns. When the robot is approaching a turn, the node automatically tells him to slow down, so that he can make the right controls.
+
+The controller uses all the sensors data received by the `/base_scan` publisher after he subscribes to it. this topic is composed by 720 _ranges_, in which there are all the detected distances. the sensor can see from -90 to 90 degrees, so each sensor has 1/4 of degree of view.
+
+After a message from `/base_scan` is recieved, the controller node enters inside the `checkTrackLimits` function, that filters all the ranges taking only the one from -90° to -70°, -10° to 10° and 70° to 90°. After that the function checks for the minimum value inside each of the three sets, and choose what action has to be done:
+
+* if the front wall is nearer then `f_th = 2`meters, he checks the lateral distances:
+  * if the left distance is more then the right distance he slightly turns to the right
+  * otherwise he slightly turns to the left
+* if the front wall is furthest then the treshold, then the robot goes straight using the speed received by the `/accelerator` service (described below)  
 
 ### Motors ###
 
