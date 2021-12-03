@@ -1,10 +1,10 @@
-Assignment 1 - Research Track 1
+Assignment 2 - Research Track 1
 ================================
 
 Introduction
 ------------
 
-In this assignment we are asked to let the robot `constantly drive around the circuit in the counter-clockwise direction`, `avoiding all the gold boxes`. When a silver token in found along the path, the robot should also `grab it and move it behind himself.`
+In this assignment we have to develop a robot that should `drive autonomously` inside the [Autodromo Nazionale di Monza](https://www.monzanet.it/) , `paying attention to the track limits`.
 
 Installing and running
 ----------------------
