@@ -13,7 +13,7 @@ float speed = 1;
 
 double min(double a[])
 {
-    double min = 30;
+    double min = 100;
     for (int i = 0; i < LENGTH; i++)
     {
         if (a[i] < min)
