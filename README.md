@@ -70,6 +70,10 @@ When the robot goes straight, he uses the `/Speed_val` value as speed value. `/S
 
 After doing that, the controller node publish the data to the `/cmd_vel` topic, used to control the robot movement.
 
+### Flowchart ###
+
+<image src="https://github.com/marcomacchia99/RT1_Assignment2/blob/main/assets/diagram.png" width="600px">
+
 
 Service node
 --------------
@@ -108,12 +112,28 @@ service.request.input_char=inputChar;
         std::cout << "New speed: "<< service.response.value<<"\n\n";
 ```
 
-### Flowchart ###
+Project graph
+-------------------
+ 
+Here's the project graph which explains the relationship within the nodes.
+The graph can be generated using this command:
+ 
+```console
+$ rqt_graph
+``` 
 
-![alt text](https://github.com/marcomacchia99/RT1_Assignment2/blob/main/assets/diagram.png)
+![alt text](https://github.com/marcomacchia99/RT1_Assignment2/blob/main/assets/rosgraph.png)
 
 Video demonstration
 -------------------
+ 
+This is the outcome of the project. The robot is able to stay inside the track limits until he reaches a velocity of 26,0. His optimal speed, however, is from 8,0 to 10,0.
 
 ![alt text](https://github.com/marcomacchia99/RT1_Assignment2/blob/main/assets/video.gif)
+ 
+Conclusion and future improvements
+-------------------
+By now the robot can autonomousely drive inside the [Autodromo Nazionale di Monza](https://www.monzanet.it/), but all the movement aren't smooth at all.
+A next update could introduce better movements inside the turn, expecially inside the _Prima variante_, and a bettere _user experience_.
 
+It could also be possibile to dynamically change the robot speed, as the real cars actually do: The robot can drive at a speed that is inversely proportional to the amount of remaining straight. In this case however, the user input will became useless.
