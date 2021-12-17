@@ -51,10 +51,9 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-add_message_files(
-  FILES
-  Speed_val.msg
-)
+# add_message_files(
+#   FILES
+# )
 
 ## Generate services in the 'srv' folder
 add_service_files(
@@ -137,7 +136,7 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(controller src/controller.cpp)
-add_executable(server src/server.cpp)
+# add_executable(server src/server.cpp)
 add_executable(UI src/ui.cpp)
 
 
@@ -150,16 +149,16 @@ add_executable(UI src/ui.cpp)
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 add_dependencies(controller ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-add_dependencies(server ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(server ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(UI ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(controller
   ${catkin_LIBRARIES}
 )
-target_link_libraries(server
-  ${catkin_LIBRARIES}
-)
+# target_link_libraries(server
+#   ${catkin_LIBRARIES}
+# )
 target_link_libraries(UI
   ${catkin_LIBRARIES}
 )
