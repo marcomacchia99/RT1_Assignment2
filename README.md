@@ -117,7 +117,7 @@ The graph can be generated using this command:
 $ rqt_graph
 ``` 
 
-![alt text](https://github.com/marcomacchia99/RT1_Assignment2/blob/main/assets/rosgraph.png)
+![alt text](https://github.com/marcomacchia99/RT1_Assignment2/blob/main/assets/graph.png)
 
 Video demonstration
 -------------------
