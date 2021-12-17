@@ -43,7 +43,7 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "ui");
     ros::NodeHandle node_handle;
 
-    //"linking" with accelerator process
+    //"linking" with accelerator node
     service_client = node_handle.serviceClient<RT1_Assignment2::Speed_service>("/accelerator");
     //subribes to /base_scan topic
     ros::Subscriber subscriber = node_handle.subscribe("/base_scan", 500, getCommand);  
