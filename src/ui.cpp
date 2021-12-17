@@ -2,7 +2,6 @@
 #include "geometry_msgs/Twist.h"
 #include "sensor_msgs/LaserScan.h"
 #include "RT1_Assignment2/Speed_service.h"
-#include "RT1_Assignment2/Speed_val.h"
 
 // ros::Publisher pub;
 ros::ServiceClient service_client;

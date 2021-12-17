@@ -2,7 +2,6 @@
 #include "sensor_msgs/LaserScan.h"
 #include "geometry_msgs/Twist.h"
 #include "RT1_Assignment2/Speed_service.h"
-#include "RT1_Assignment2/Speed_val.h"
 #include "std_srvs/Empty.h"
 
 #define LENGTH 80
